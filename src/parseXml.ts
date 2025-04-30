@@ -1,27 +1,34 @@
 import { parse } from "https://esm.sh/jsr/@libs/xml@6.0.4"
 
+const flatten =
+(name: string) =>
+(value: any) => {
+    if (value[name]) {
+        let { [name]: folder, ...rest } = value
+        if (!Array.isArray(folder)) {
+            folder = [folder]
+        }
+        return {
+            ...rest,
+            ...Object.fromEntries(
+                folder.map(({ name, ...rest }: any) => [
+                    name,
+                    rest,
+                ])
+            ),
+        }
+    }
+    return value
+}
+
 export const parseXml =
 (xml: Parameters<typeof parse>[0]) => {
     const json = parse(xml)
     const jsonStr = JSON.stringify(json)
 
     return JSON.parse(jsonStr, (key, value) => {
-        if (value.Folder) {
-            let { Folder, ...rest } = value
-            if (!Array.isArray(Folder)) {
-                Folder = [Folder]
-            }
-            return {
-                ...rest,
-                ...Object.fromEntries(
-                    Folder.map(({ name, ...rest }: any) => [
-                        name,
-                        rest,
-                    ])
-                ),
-            }
-        } else {
-            return value
-        }
+        value = flatten("Folder")(value)
+        value = flatten("Placemark")(value)
+        return value
     })
 }
