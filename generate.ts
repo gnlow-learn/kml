@@ -1,4 +1,4 @@
-import { parse } from "./src/deps.ts"
+import { parseXml } from "./src/parseXml.ts"
 import {
     quicktype,
     InputData,
@@ -7,7 +7,7 @@ import {
 
 using file = await Deno.open("./static/k.kml")
 
-const json = parse(file)
+const json = parseXml(file)
 
 const qt =
 (lang: "ts") =>

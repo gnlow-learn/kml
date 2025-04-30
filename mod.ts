@@ -5,5 +5,5 @@ using file = await Deno.open("./static/k.kml")
 const k = parse(file)
 
 console.log(
-    k.kml.Document.Folder.map(x => x.name)
+    k.kml.Document.Path.ASIA.ROK.미래.도시철도.한국철도공사.Placemark[0].name
 )
