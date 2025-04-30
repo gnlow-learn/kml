@@ -1,10 +1,8 @@
-import { Convert, Kml } from "../dist/Convert.ts"
 import { parseXml } from "./parseXml.ts"
-
-export { type Kml }
+import { Document } from "./types.ts"
 
 export const parse =
 (xml: Parameters<typeof parseXml>[0]) => {
     const json = parseXml(xml)
-    return Convert.toKml(JSON.stringify(json))
+    return json.kml.Document as Document
 }
