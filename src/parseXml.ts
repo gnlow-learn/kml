@@ -10,12 +10,7 @@ const flatten =
         }
         return {
             ...rest,
-            ...Object.fromEntries(
-                folder.map(({ name, ...rest }: any) => [
-                    name,
-                    rest,
-                ])
-            ),
+            [name]: folder,
         }
     }
     return value
